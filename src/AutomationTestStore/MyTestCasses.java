@@ -1,6 +1,7 @@
 package AutomationTestStore;
 
 import java.awt.event.WindowEvent;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,7 @@ public class MyTestCasses {
 WebDriver driver = new ChromeDriver();
 String theURL= "https://automationteststore.com/";
 String Register="https://automationteststore.com/index.php?rt=account/create";
+Random rand=  new Random();
 
 @BeforeTest
 	public void MySetup() {
@@ -28,40 +30,56 @@ public void FirstTist() {
 	
 	
 //Elements - Your Personal Details 
-	
 	//WebElement firstName =driver.findElement(By.xpath("//*[@id=\"AccountFrm_firstname\"]"));
-	WebElement firstName =driver.findElement(By.name("firstname"));
-	WebElement lastName =driver.findElement(By.id("AccountFrm_lastname"));
-	WebElement email = driver.findElement(By.id("AccountFrm_email"));
-	WebElement phoneNum = driver.findElement(By.name("telephone"));
-	WebElement fax =driver.findElement(By.id("AccountFrm_fax"));
+	WebElement firstNameInput =driver.findElement(By.name("firstname"));
+	WebElement lastNameInput =driver.findElement(By.id("AccountFrm_lastname"));
+	WebElement emailInput = driver.findElement(By.id("AccountFrm_email"));
+	WebElement phoneNumInput = driver.findElement(By.name("telephone"));
+	WebElement faxInput =driver.findElement(By.id("AccountFrm_fax"));
 	
-	
+//Data - Your Personal Details
+	int randNum = rand.nextInt(7000);
+	String [] firstNames= {"abd","salam","noor"};
+	int randInputFirstName = rand.nextInt(firstNames.length);
+	String randFirstName=firstNames[randInputFirstName];
+	String [] lastNames= {"abd","salam","noor"};
+	int randIndexLastName = rand.nextInt(lastNames.length);
+	String randLastName=lastNames[randIndexLastName];
+	String  emails= randFirstName+randLastName+randNum+"@gmail.com";
+	String phoneNum= "4646454564";
+	String fax="hkal4";
 	
 //Action - Your Personal Details 
-	firstName.sendKeys("abdalrahman");
-	lastName.sendKeys("obeidat");
-	email.sendKeys("abdalrahman.obe@gmail.com");
-	phoneNum.sendKeys("45345434354");
-	fax.sendKeys("hkal4");
+	firstNameInput.sendKeys(randFirstName);
+	lastNameInput.sendKeys(randLastName);
+	emailInput.sendKeys(emails);
+	phoneNumInput.sendKeys(phoneNum);
+	faxInput.sendKeys("hkal4");
 	
 	
 //Elements - Your Address	
-	WebElement company =driver.findElement(By.id("AccountFrm_company"));
-	WebElement address1 = driver.findElement(By.id("AccountFrm_address_1"));
-	WebElement address2 = driver.findElement(By.id("AccountFrm_address_2"));
-	WebElement city =driver.findElement(By.id("AccountFrm_city"));
-	WebElement country = driver.findElement(By.id("AccountFrm_country_id"));
+	WebElement companyInput =driver.findElement(By.id("AccountFrm_company"));
+	WebElement address1Input = driver.findElement(By.id("AccountFrm_address_1"));
+	WebElement address2Input = driver.findElement(By.id("AccountFrm_address_2"));
+	WebElement cityInput =driver.findElement(By.id("AccountFrm_city"));
+	WebElement countryInput = driver.findElement(By.id("AccountFrm_country_id"));
 	
 
+//Data - Your Address	
+	String company= "me";
+	String address1="Irbid";
+	String address2= "Al-Rafed";
+	String city="Irbid";
+	String country= "Jordan";
+	
 	
 	
 //Action - Your Address	
-	company.sendKeys("me");
-	address1.sendKeys("Irbid");
-	address2.sendKeys("Al-Rafed");
-	city.sendKeys("Irbid");
-	country.sendKeys("Jordan");
+	companyInput.sendKeys(company);
+	address1Input.sendKeys(address1);
+	address2Input.sendKeys(address2);
+	cityInput.sendKeys(city);
+	countryInput.sendKeys(country);
 	
 	
 	
