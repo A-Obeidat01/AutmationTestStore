@@ -54,7 +54,7 @@ public void FirstTist() {
 	lastNameInput.sendKeys(randLastName);
 	emailInput.sendKeys(emails);
 	phoneNumInput.sendKeys(phoneNum);
-	faxInput.sendKeys("hkal4");
+	faxInput.sendKeys(fax);
 	
 	
 //Elements - Your Address	
@@ -81,8 +81,27 @@ public void FirstTist() {
 	cityInput.sendKeys(city);
 	countryInput.sendKeys(country);
 	
+		
+//Elements - Login Details
+	WebElement LoginNameInput = driver.findElement(By.id("AccountFrm_loginname"));	
+	WebElement PasswordInput = driver.findElement(By.id("AccountFrm_password"));	
+	WebElement PasswordConfirmInput = driver.findElement(By.id("AccountFrm_confirm"));	
+
+	
+//Data - Login Details
+	String LoginName = randFirstName+randLastName;
+	String Password = "abd7894562**";
+	String PasswordConfirm = "abd7894562**";
+ 
+//Action - Login Details
+	LoginNameInput.sendKeys(LoginName);
+	PasswordInput.sendKeys(Password);
+	PasswordConfirmInput.sendKeys(PasswordConfirm);
 	
 	
+//Action	
+	WebElement PrivacyPolicyInput = driver.findElement(By.id("AccountFrm_agree"));	
+	PrivacyPolicyInput.click();
 }
 
 
