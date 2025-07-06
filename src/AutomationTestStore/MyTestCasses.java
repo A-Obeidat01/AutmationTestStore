@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -25,7 +26,7 @@ Random rand=  new Random();
 }
 
 @Test(priority = 1,enabled = true)
-public void FirstTist() {
+public void FirstTist() throws InterruptedException {
 	driver.navigate().to(Register);
 	
 	
@@ -39,10 +40,10 @@ public void FirstTist() {
 	
 //Data - Your Personal Details
 	int randNum = rand.nextInt(7000);
-	String [] firstNames= {"abd","salam","noor"};
+	String [] firstNames= {"salam","noor"};
 	int randInputFirstName = rand.nextInt(firstNames.length);
 	String randFirstName=firstNames[randInputFirstName];
-	String [] lastNames= {"abd","salam","noor"};
+	String [] lastNames= {"abd","salameh","mohammad"};
 	int randIndexLastName = rand.nextInt(lastNames.length);
 	String randLastName=lastNames[randIndexLastName];
 	String  emails= randFirstName+randLastName+randNum+"@gmail.com";
@@ -63,15 +64,29 @@ public void FirstTist() {
 	WebElement address2Input = driver.findElement(By.id("AccountFrm_address_2"));
 	WebElement cityInput =driver.findElement(By.id("AccountFrm_city"));
 	WebElement countryInput = driver.findElement(By.id("AccountFrm_country_id"));
-	
+	WebElement RegionStateInput = driver.findElement(By.id("AccountFrm_zone_id"));
+	WebElement 	ZIPCodeInput = driver.findElement(By.id("AccountFrm_postcode"));
 
 //Data - Your Address	
 	String company= "me";
 	String address1="Irbid";
 	String address2= "Al-Rafed";
 	String city="Irbid";
-	String country= "Jordan";
-	
+	String ZIPCode="5589";
+
+//country	
+	Select countrySelect = new Select(countryInput);
+	int optionsCount = countrySelect.getOptions().size();
+	int randomCountryIndex = rand.nextInt(optionsCount);
+	WebElement selectedCountry = countrySelect.getOptions().get(randomCountryIndex);
+    String countryName = selectedCountry.getText();
+  
+//RegionState	
+    Select RegionStateSelect = new Select(RegionStateInput);
+	int optionsCountRegionState = RegionStateSelect.getOptions().size();
+	int randomRegionStateIndex = rand.nextInt(optionsCountRegionState);
+	WebElement selectedRegionState = countrySelect.getOptions().get(randomRegionStateIndex);
+    String RegionState = selectedRegionState.getText();
 	
 	
 //Action - Your Address	
@@ -79,8 +94,10 @@ public void FirstTist() {
 	address1Input.sendKeys(address1);
 	address2Input.sendKeys(address2);
 	cityInput.sendKeys(city);
-	countryInput.sendKeys(country);
-	
+	countryInput.sendKeys(countryName);
+	Thread.sleep(1000);
+	RegionStateInput.sendKeys(RegionState);
+	ZIPCodeInput.sendKeys(ZIPCode);
 		
 //Elements - Login Details
 	WebElement LoginNameInput = driver.findElement(By.id("AccountFrm_loginname"));	
@@ -100,8 +117,10 @@ public void FirstTist() {
 	
 	
 //Action	
-	WebElement PrivacyPolicyInput = driver.findElement(By.id("AccountFrm_agree"));	
-	PrivacyPolicyInput.click();
+	WebElement PrivacyPolicy = driver.findElement(By.id("AccountFrm_agree"));	
+	PrivacyPolicy.click();
+	WebElement Continue = driver.findElement(By.xpath("//button[@title='Continue']"));	
+	Continue.click();
 }
 
 
