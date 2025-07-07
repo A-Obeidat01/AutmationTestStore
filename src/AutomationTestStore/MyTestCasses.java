@@ -74,31 +74,37 @@ public void FirstTist() throws InterruptedException {
 	String city="Irbid";
 	String ZIPCode="5589";
 
-//country	
-	Select countrySelect = new Select(countryInput);
-	int optionsCount = countrySelect.getOptions().size();
-	int randomCountryIndex = rand.nextInt(optionsCount);
-	WebElement selectedCountry = countrySelect.getOptions().get(randomCountryIndex);
-    String countryName = selectedCountry.getText();
-  
-//RegionState	
-    Select RegionStateSelect = new Select(RegionStateInput);
-	int optionsCountRegionState = RegionStateSelect.getOptions().size();
-	int randomRegionStateIndex = rand.nextInt(optionsCountRegionState);
-	WebElement selectedRegionState = countrySelect.getOptions().get(randomRegionStateIndex);
-    String RegionState = selectedRegionState.getText();
-	
 	
 //Action - Your Address	
 	companyInput.sendKeys(company);
 	address1Input.sendKeys(address1);
 	address2Input.sendKeys(address2);
 	cityInput.sendKeys(city);
-	countryInput.sendKeys(countryName);
-	Thread.sleep(1000);
-	RegionStateInput.sendKeys(RegionState);
 	ZIPCodeInput.sendKeys(ZIPCode);
-		
+	
+
+	//country	
+		Select countrySelect = new Select(countryInput);
+		int optionsCountCountry = countrySelect.getOptions().size();
+		int randomCountryIndex = rand.nextInt(1,optionsCountCountry);
+		countrySelect.selectByIndex(randomCountryIndex);
+
+	
+	Thread.sleep(1000);
+	
+	//RegionState	
+    Select RegionStateSelect = new Select(RegionStateInput);
+	int optionsCountRegionState = RegionStateSelect.getOptions().size();
+	int randomRegionStateIndex = rand.nextInt(1,optionsCountRegionState);
+	RegionStateSelect.selectByIndex(randomRegionStateIndex);
+	
+	/*
+	  Select mySelectForTheState = new Select(StateSelect);
+		int randomStateIndex = rand.nextInt(1, numberOfOptions);
+		mySelectForTheState.selectByValue("1705");
+		*/
+
+
 //Elements - Login Details
 	WebElement LoginNameInput = driver.findElement(By.id("AccountFrm_loginname"));	
 	WebElement PasswordInput = driver.findElement(By.id("AccountFrm_password"));	
@@ -106,7 +112,7 @@ public void FirstTist() throws InterruptedException {
 
 	
 //Data - Login Details
-	String LoginName = randFirstName+randLastName;
+	String LoginName = randFirstName+randLastName+randNum;
 	String Password = "abd7894562**";
 	String PasswordConfirm = "abd7894562**";
  
