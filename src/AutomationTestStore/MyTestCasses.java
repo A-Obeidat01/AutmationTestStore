@@ -1,6 +1,8 @@
 package AutomationTestStore;
 
 import java.awt.event.WindowEvent;
+import java.net.URI;
+import java.util.List;
 import java.util.Random;
 
 import org.openqa.selenium.By;
@@ -17,7 +19,8 @@ WebDriver driver = new ChromeDriver();
 String theURL= "https://automationteststore.com/";
 String Register="https://automationteststore.com/index.php?rt=account/create";
 Random rand=  new Random();
-
+String theUserName ;
+String thePassword ="abd7894562*";
 @BeforeTest
 	public void MySetup() {
 	driver.get(theURL);
@@ -25,7 +28,7 @@ Random rand=  new Random();
 	
 }
 
-@Test(priority = 1,enabled = true)
+@Test(priority = 1,enabled = false)
 public void FirstTist() throws InterruptedException {
 	driver.navigate().to(Register);
 	
@@ -84,25 +87,39 @@ public void FirstTist() throws InterruptedException {
 	
 
 	//country	
+	/*
 		Select countrySelect = new Select(countryInput);
 		int optionsCountCountry = countrySelect.getOptions().size();
 		int randomCountryIndex = rand.nextInt(1,optionsCountCountry);
 		countrySelect.selectByIndex(randomCountryIndex);
+		*/
+	
+	Select countrySelect = new Select(countryInput);
+	int optionCountry = countryInput.findElements(By.tagName("option")).size();
+	int randomCountry= rand.nextInt(1,optionCountry);
+	countrySelect.selectByIndex(randomCountry);
 
 	
 	Thread.sleep(1000);
 	
 	//RegionState	
+	
+	Select RegionStateSelect = new Select(RegionStateInput);
+	int optionRegionState = RegionStateInput.findElements(By.tagName("option")).size();
+	int randomRegionState = rand.nextInt(1,optionRegionState);
+	RegionStateSelect.selectByIndex(randomRegionState);
+	/*
     Select RegionStateSelect = new Select(RegionStateInput);
 	int optionsCountRegionState = RegionStateSelect.getOptions().size();
 	int randomRegionStateIndex = rand.nextInt(1,optionsCountRegionState);
 	RegionStateSelect.selectByIndex(randomRegionStateIndex);
 	
-	/*
-	  Select mySelectForTheState = new Select(StateSelect);
-		int randomStateIndex = rand.nextInt(1, numberOfOptions);
-		mySelectForTheState.selectByValue("1705");
-		*/
+	-------------------------------------------------------
+	
+	Select mySelectForTheState = new Select(StateSelect);
+	int randomStateIndex = rand.nextInt(1, numberOfOptions);
+	mySelectForTheState.selectByValue("1705");
+	*/
 
 
 //Elements - Login Details
@@ -112,9 +129,10 @@ public void FirstTist() throws InterruptedException {
 
 	
 //Data - Login Details
-	String LoginName = randFirstName+randLastName+randNum;
-	String Password = "abd7894562**";
-	String PasswordConfirm = "abd7894562**";
+	theUserName= randFirstName+randLastName+randNum;
+	String LoginName = theUserName;
+	String Password = thePassword;
+	String PasswordConfirm = thePassword;
  
 //Action - Login Details
 	LoginNameInput.sendKeys(LoginName);
@@ -128,6 +146,44 @@ public void FirstTist() throws InterruptedException {
 	WebElement Continue = driver.findElement(By.xpath("//button[@title='Continue']"));	
 	Continue.click();
 }
-
+	@Test (priority = 2,enabled = false)
+	public void logOut () throws InterruptedException {
+		
+		WebElement logoutButton = driver.findElement(By.linkText("Logoff"));
+		logoutButton.click();
+		Thread.sleep(1000);
+		WebElement ContinueButton = driver.findElement(By.linkText("Continue"));
+		ContinueButton.click();
+		
+	}
+	@Test (priority = 3,enabled = false)
+	public void logIn () {
+		WebElement logInButton = driver.findElement(By.partialLinkText("Login or"));
+		logInButton.click();
+		WebElement userName =driver.findElement(By.id("loginFrm_loginname"));
+		WebElement password = driver.findElement(By.id("loginFrm_password"));
+		userName.sendKeys(theUserName);
+		password.sendKeys(thePassword);
+		WebElement login= driver.findElement(By.xpath("//button[@title='Login']"));
+		login.click();
+		
+	}
+	
+	@Test (priority = 4,invocationCount = 20,enabled = true)
+	public void cart () {
+		driver.navigate().to(theURL);
+		List<WebElement> listOfItem= driver.findElements(By.className("prdocutname"));
+		int numOfItem = listOfItem.size();
+		int randIndex = rand.nextInt(numOfItem);
+		listOfItem.get(randIndex).click();
+		if (driver.getPageSource().contains("Out of Stock")) {
+			driver.navigate().back();
+			System.out.println("sorry the item is Out of Stock");
+		}
+		else {
+			System.out.println("the item is available");
+		}
+		
+	}
 
 }
