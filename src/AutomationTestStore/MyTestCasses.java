@@ -28,7 +28,7 @@ String thePassword ="abd7894562*";
 	
 }
 
-@Test(priority = 1,enabled = false)
+@Test(priority = 1,enabled = true)
 public void FirstTist() throws InterruptedException {
 	driver.navigate().to(Register);
 	
@@ -146,7 +146,7 @@ public void FirstTist() throws InterruptedException {
 	WebElement Continue = driver.findElement(By.xpath("//button[@title='Continue']"));	
 	Continue.click();
 }
-	@Test (priority = 2,enabled = false)
+	@Test (priority = 2,enabled = true)
 	public void logOut () throws InterruptedException {
 		
 		WebElement logoutButton = driver.findElement(By.linkText("Logoff"));
@@ -156,7 +156,7 @@ public void FirstTist() throws InterruptedException {
 		ContinueButton.click();
 		
 	}
-	@Test (priority = 3,enabled = false)
+	@Test (priority = 3,enabled = true)
 	public void logIn () {
 		WebElement logInButton = driver.findElement(By.partialLinkText("Login or"));
 		logInButton.click();
@@ -169,19 +169,71 @@ public void FirstTist() throws InterruptedException {
 		
 	}
 	
-	@Test (priority = 4,invocationCount = 20,enabled = true)
-	public void cart () {
+	@Test (priority = 4,invocationCount = 1,enabled = true)
+	public void cart () throws InterruptedException {
+		Thread.sleep(2000);
 		driver.navigate().to(theURL);
+		Thread.sleep(2000);
+		
 		List<WebElement> listOfItem= driver.findElements(By.className("prdocutname"));
 		int numOfItem = listOfItem.size();
 		int randIndex = rand.nextInt(numOfItem);
 		listOfItem.get(randIndex).click();
+		
+		//Elements
+		WebElement price = driver.findElement(By.className("productfilneprice"));
+		WebElement numberOfQuantity = driver.findElement(By.id("product_quantity"));
+		WebElement addToCart=driver.findElement(By.xpath("//a[normalize-space()='Add to Cart']"));
+		
+		
 		if (driver.getPageSource().contains("Out of Stock")) {
 			driver.navigate().back();
-			System.out.println("sorry the item is Out of Stock");
+			System.out.println("Sorry the item is Out of Stock");
 		}
 		else {
-			System.out.println("the item is available");
+			
+			System.out.println("The item is available");
+			
+			String priceText= price.getText().replace("$", "");
+			double priceValue = Double.parseDouble(priceText);
+			int randNumberOfQuantity = rand.nextInt(2,20);
+		//Action	
+			numberOfQuantity.clear();
+			numberOfQuantity.sendKeys(randNumberOfQuantity+"");
+		//Elements	
+			double totalPriceValueNum = priceValue*randNumberOfQuantity;
+			String totalPriceValueStr = "$" + String.format("%,.2f", totalPriceValueNum);
+			
+			System.out.println("The total price : "+totalPriceValueStr);
+			addToCart.click();
+			Thread.sleep(2000);
+			
+			if (driver.getPageSource().contains(totalPriceValueStr)) {
+				
+				WebElement checkout=driver.findElement(By.id("cart_checkout2"));
+				checkout.click();
+				
+			Thread.sleep(2000);
+			
+				WebElement confirmOrderButton= driver.findElement(By.id("checkout_btn"));
+				confirmOrderButton.click();
+			Thread.sleep(3000);
+			
+				WebElement ContinueButton = driver.findElement(By.linkText("Continue"));
+				ContinueButton.click();
+			}
+			
+			else
+			{
+				System.out.println("sorry not found the total price equal this number :"+ totalPriceValueStr);
+			}
+			
+			
+			
+			
+			
+			
+			
 		}
 		
 	}
